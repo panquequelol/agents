@@ -21,9 +21,10 @@ Write prose in ASD-STE100 Simplified Technical English. This applies to document
 - Build non-ambiguous deterministic systems using functional programming patterns.
 - Make illegal states unrepresentable; prefer ADTs/discriminated unions over boolean flags and loosely optional fields.
 - By reading code one should be able to predict what it will do. A function or implementation that needs comments, needs to be broken down.
-- Use explicit and non-ambiguous language in commits, example: `fix(map): preserve territory retries after empty bootstrap cache`
+- Use Git Conventional Commits, where description must complete the sentence: "If applied, this commit will [your description line here]". ex: `fix(map): preserve territory retries after empty bootstrap cache`.
 - Do not start a dev server or run build unless explicitly asked.
 - Do not add descriptive copy beneath headings, settings, cards, etc. Prefer a self-explanatory label. Only add supporting copy when it is necessary to prevent misunderstanding, and never use it to restate the heading.
+- Avoid magic numbers and strings by extracting recurring or meaningful values into descriptive constants (const). Keep self-explanatory, one-off values inline to avoid clutter.
 
 ## Agents
 
@@ -42,3 +43,7 @@ Available subagents:
 - Oracle: Strategic second-opinon. Use for planning, debugging and creating specs.
 - Sentinel: Approval gate. Use after implementation. No direct approval means task is not done.
 - Librarian: Deep search any topic, including third-party documentation, news, source-sensitive claims, open-ended questions. Use if requests needs to be checked accross sources.
+
+## Hard rule
+
+When writing something intended for human consumption, (comment, commit message, reply to prompt) use as few words as possible. Pick every word meticulously to reduce the volume to a strict minimum. Be down to the point. Less is more

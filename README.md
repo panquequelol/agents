@@ -32,6 +32,14 @@ Use a specialist agent for its assigned task. Give each agent the problem, const
 | [Sentinel](./subagents/sentinel.md) | Review changes before handoff or commit. Do not treat work as complete without its approval. |
 | [Librarian](./subagents/librarian.md) | Research current or source-sensitive questions on the web. |
 
+Factory Droid copies live in `.factory/droids/`. Copy them to `~/.factory/droids/` for personal use.
+
+| Droid | Model |
+| --- | --- |
+| [oracle](./.factory/droids/oracle.md) | `gpt-5.6-sol` xhigh |
+| [sentinel](./.factory/droids/sentinel.md) | `gpt-5.6-sol` xhigh |
+| [librarian](./.factory/droids/librarian.md) | `glm-5.3-flash` max |
+
 ## MCP servers
 
 `mcp.json` configures these servers:
