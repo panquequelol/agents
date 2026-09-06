@@ -3,13 +3,20 @@
     "command": "bunx",
     "args": ["-y", "opensrc-mcp"]
   },
-  "grep_app": {
+  "grep-app": {
     "type": "http",
     "url": "https://mcp.grep.app"
   },
   "deepwiki": {
     "type": "http",
     "url": "https://mcp.deepwiki.com/mcp"
+  },
+  "exa": {
+    "type": "http",
+    "url": "https://mcp.exa.ai/mcp?tools=web_search_exa,web_fetch_exa,web_search_advanced_exa",
+    "headers": {
+      "x-api-key": "${EXA_API_KEY}"
+    }
   },
   "sequential-thinking": {
     "command": "bunx",

@@ -42,7 +42,7 @@ When invoking subagents:
 Available subagents:
 - Oracle: Strategic second-opinon. Use for planning, debugging and creating specs.
 - Sentinel: Approval gate. Use after implementation. No direct approval means task is not done.
-- Librarian: Deep search any topic, including third-party documentation, news, source-sensitive claims, open-ended questions. Use if requests needs to be checked accross sources.
+- Librarian: Research gate. Required for go-to-market, company or competitor discovery, people and published business contacts, market or pricing facts, state-of-the-art surveys, current vendor docs or API versions, and any claim that needs sources. Pass every field in the Brief section of `subagents/librarian.md`, with tier `quick`, `standard`, or `deep`. One inline search covers a single narrow first-party fact only. For `deep`, run `commands/research.md`.
 
 ## Hard rule
 
