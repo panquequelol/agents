@@ -13,9 +13,5 @@
     "headers": {
       "x-api-key": "${EXA_API_KEY}"
     }
-  },
-  "sequential-thinking": {
-    "command": "bunx",
-    "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
   }
 }

@@ -62,7 +62,7 @@ A subagent starts with no conversation history, sees no earlier tool results, an
 
 Available subagents:
 - Oracle: Use when reasoning decides the outcome. Plans, behavior analysis, debugging, refactors, alternatives, disputed findings, and review of your own work. Use a new Oracle after implementation and before handoff or commit. Only an explicit `Verdict: Approved` for the current target satisfies the approval gate.
-- Librarian: Use when the answer needs sources. Markets, companies, people, published business contacts, pricing, current documentation, public code, repository architecture, local deploy paths, and API history. Give the question, the decision it informs, and any local file paths, error text, repo names, and installed versions. For an API signature, a package type, or an official configuration value, use tier `lookup` and give the installed version. After Librarian returns a repository map, save it to `research/wiki/<source>@<ref>.md`, and paste that map into a later brief about the same repository.
+- Librarian: Use when the answer needs sources. Markets, companies, people, published business contacts, pricing, current documentation, public code, repository architecture, local deploy paths, and API history. Give the question, the decision it informs, and any local file paths, error text, repo names, and installed versions
 
 ## Hard rule
 

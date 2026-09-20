@@ -168,6 +168,10 @@ async function runTransaction<T>(
 
 USE `delayMs(error, context)` when the delay depends on the error. Do not combine dynamic delays with `backoff` or `jitter`. Pass a top-level `signal` and forward `context.signal` to the abort-aware operation. This stops pending delays and later retries. It cancels active work only when the operation forwards the signal.
 
+- `shouldRetry` receives `(error, { attempt })`. USE `attempt` for per-attempt policies.
+- `jitter` takes `true` or a number from 0 to 1. USE it to spread retry delays.
+- Sync `Result.try()` accepts only `retry: { times }`. USE `Result.tryPromise()` for delays, backoff, jitter, and `signal`.
+
 Catch `Panic` only at a true defect boundary. Do not convert it to a generic `Err`.
 
 ## Serialization
@@ -189,3 +193,10 @@ const decoded = await UserResultCodec.deserialize(input);
 ```
 
 USE safe codec methods at public, persisted, or independently versioned boundaries. USE `serializeUnsafe()` and `deserializeUnsafe()` only when a schema mismatch means a defect.
+
+## Collections
+
+- USE `Result.all()` and `Result.allAsync()` to combine a list of Results into one Result of a list. The first error in input order wins.
+- USE `Result.partition()` and `Result.partitionAsync()` to split a list of Results into a `[successes, errors]` tuple.
+- USE `Result.flatten()` to unwrap one level of nesting in a Result. The outer error unions with the inner error.
+- Async variants also accept promises of Results. A rejected promise throws `Panic`.
