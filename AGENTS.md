@@ -58,9 +58,10 @@ Read the available subagent descriptions. When a role's stated trigger applies, 
 3. Use the feedback in the next steps and state how it changes them.
 
 Available subagents:
-- Oracle: Strategic second-opinon. Use for planning, debugging and creating specs.
-- Sentinel: Approval gate. Use after implementation. No direct approval means task is not done.
-- Librarian: Research gate. Use for go-to-market, company or competitor discovery, published business contacts, market or pricing facts, current documentation, public code, and claims that need sources. Pass the brief from `subagents/librarian.md`. Use one run. For deep work, use `commands/research.md`, with at most two runs and parent synthesis. One inline search can check one narrow first-party fact. The workspace stays unchanged.
+- Oracle: Ask for advice on plans, implementation details, debugging, specifications, and disputed findings. Request a fresh review after implementation and before handoff or commit. Only an explicit `Verdict: Approved` for the current target satisfies the approval gate.
+- Librarian: Research gate. Use for go-to-market, company or competitor discovery, published business contacts, market or pricing facts, current documentation, public code, and claims that need sources. Pass the brief from `subagents/librarian.md`. Use one run. For deep work, use `commands/research.md`, with at most two runs and parent synthesis. The workspace stays unchanged.
+  - Use one inline tool call to check one exact fact from one official source, such as an API signature, an option, a version, or a documented limit.
+  - Use Librarian when the answer needs more than one source, more than one call, a comparison, evidence from public code, or a statement about what is not certain.
 
 ## Hard rule
 

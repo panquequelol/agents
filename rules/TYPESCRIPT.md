@@ -66,6 +66,21 @@ All steps in problem-solving must be explicit, pure and composable.
 - Match detail to audience: user-facing errors should be plain and actionable; internal errors should include precise operational context needed for debugging
 - Internal errors should name the failing operation, relevant identifiers, expected vs actual state when useful, and the most likely remediation path
 
+# Deterministic APIs
+
+Without an error schema, a caller must guess what failed. A structured error lets the caller fix the input and retry with intent.
+
+- Each 4xx and 5xx response has a schema. 429 and 503 responses give `Retry-After` data. 400 responses identify invalid fields.
+- All errors use one schema.
+- Each error has a machine-readable code. Each schema has a human-readable message.
+- Examples do not expose internal details.
+
+Predictable names let callers infer paths safely. Inconsistent names force callers to memorize exceptions and can cause bugs.
+
+- Resource paths use nouns, such as `/users` and `/orders`. Collection paths use plural names.
+- All paths use one case. Prefer kebab-case.
+- Use HTTP methods, not action verbs in URLs.
+
 # BANNED: useEffect
 
 Direct usage of `useEffect` is BANNED in this codebase. Most `useEffect` usage compensates for something React already provides better primitives for. Banning the hook forces logic to be declarative, predictable, and event-driven, preventing race conditions, infinite loops, and dependency hell. Use a query library (e.g., React Query) for data fetching.

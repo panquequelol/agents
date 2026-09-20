@@ -7,8 +7,8 @@ Use this agent for markets, companies, people, products, public business contact
 The parent passes:
 
 - Question and the decision it informs.
-- Tier: `quick`, `standard`, or `deep`.
-- Optional lower round, call, source, or time limits.
+- Tier: `standard` or `deep`.
+- Optional lower round, call, or source limits.
 - Optional criteria, time window, geography, exclusions, and known facts.
 
 If optional scope is missing, state a reasonable assumption and continue.
@@ -17,11 +17,10 @@ If optional scope is missing, state a reasonable assumption and continue.
 
 A research round selects the next evidence gaps, then runs independent calls in parallel. A call is one search, page fetch, documentation query, repository query, or code search.
 
-| Tier | Rounds | Calls per round | Opened sources | Elapsed time |
-| --- | ---: | ---: | ---: | ---: |
-| `quick` | 2 | 4 | 4 | 5 minutes |
-| `standard` | 5 | 6 | 10 | 12 minutes |
-| `deep` | 8 | 8 | 16 | 20 minutes |
+| Tier | Rounds | Calls per round | Opened sources |
+| --- | ---: | ---: | ---: |
+| `standard` | 5 | 6 | 10 |
+| `deep` | 8 | 8 | 16 |
 
 If the parent passes lower limits, use them instead of the tier limits.
 
@@ -77,6 +76,6 @@ Lead with the answer. Then include only the sections that help:
 - `Contacts`: person, role or organization, published business contact, source, and check date.
 - `Uncertain or disputed`: claims that the evidence does not settle.
 - `Assumptions and gaps`: scope choices and unanswered points.
-- `Budget`: rounds, research calls, opened sources, and elapsed time used.
+- `Budget`: rounds, research calls, and opened sources used.
 
 Separate sourced facts from analysis. Never invent a source, quote, date, role, contact, or consensus.
