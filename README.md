@@ -6,7 +6,9 @@ Agent instructions, specialist agent prompts, code rules, and MCP setup.
 
 Copy the files you need into an agent project. The main agent reads `AGENTS.md`.
 
-The active workflows use [Oracle v3](./subagents/oracle_v3.md) for advice and approval review. Configure Oracle with that definition. It infers the required work from the request. Use a fresh invocation for approval. An installed legacy Oracle does not gain these rules from its name or a file mention. Replace conflicting agent instructions before using these workflows.
+Each file in `subagents/` is a system prompt. Install it as the subagent's instructions. A subagent cannot read these files at run time and gets no conversation history, so every request needs a self-contained brief. `AGENTS.md` tells the main agent when to invoke each subagent and what the brief must contain.
+
+The workflows use [Oracle](./subagents/oracle.md) for advice and approval review. Oracle gives advice unless the brief asks for an approval review with a gate verdict. Use a new invocation for approval. An installed Oracle does not gain these rules from its name or a file mention. Replace conflicting agent instructions before using these workflows.
 
 | File | Use |
 | --- | --- |
@@ -37,10 +39,10 @@ Use a specialist agent for its assigned task. Give each agent the problem, const
 
 | Agent | Use |
 | --- | --- |
-| [Oracle v3](./subagents/oracle_v3.md) | Get implementation advice or a strict approval review based on the request. |
-| [Librarian](./subagents/librarian.md) | Research the web, public business contacts, documentation, and code with hard limits. |
+| [Oracle](./subagents/oracle.md) | Get implementation advice or a strict approval review based on the request. |
+| [Librarian](./subagents/librarian.md) | Research the web, documentation, public code, and business contacts. Use `lookup` for API signatures. |
 
-The original [Oracle](./subagents/oracle.md) and [Sentinel](./subagents/sentinel.md) prompts remain available for the legacy two-agent workflow. The solve command keeps its existing filename.
+The solve command keeps its existing filename.
 
 ## MCP servers
 

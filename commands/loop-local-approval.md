@@ -1,6 +1,6 @@
 Run `thermo-nuclear-code-quality-review` and `deslop` on the current branch. Use Oracle as the approval gate.
 
-Load [Oracle v3](../subagents/oracle_v3.md) and confirm that Oracle's active instructions use it before work starts. Stop if installed legacy instructions conflict.
+Oracle runs with the system prompt in [subagents/oracle.md](../subagents/oracle.md). Confirm the installed Oracle uses it before work starts. Stop if the installed instructions conflict. Oracle gets no conversation history, so each request needs a self-contained brief.
 
 ## Scope
 
@@ -41,7 +41,7 @@ Prefer fewer high-confidence findings and the smallest fix that preserves intend
 2. Start cycle `N`. Count every review request. Never request a review when `N` is greater than four.
 3. Run `thermo-nuclear-code-quality-review` and `deslop` on the target. Add each finding to the decision ledger.
 4. Read the complete current target and run every required check. Record each command and result. Run optional targeted checks when they help. Skip development servers and builds. Fix a branch-caused required-check failure only when the fix stays in scope. After every fix, reread the target and rerun every required check. Stop with `Verdict: Cannot approve` for an unavailable, unrelated, or unresolved required-check failure.
-5. Snapshot the target. Ask a fresh Oracle instance with no prior context to review the snapshot. Give it the scope lock, target manifest, review bar, decision ledger, snapshot, and check results. Do not give it a previous verdict. A failed or malformed response consumes the cycle. Record the failure and stop with `Verdict: Cannot approve`.
+5. Snapshot the target. Ask a new Oracle instance for an approval review of the snapshot with a gate verdict in the v3 review output format. Give it the task, the plan when one exists, the scope lock with the base commit, the target manifest with file paths, the review bar, the decision ledger, the snapshot, and the check results. Do not give it a previous verdict. A failed or malformed response consumes the cycle. Record the failure and stop with `Verdict: Cannot approve`.
 6. Compare the target with the snapshot. If it is unchanged, continue to step 7. If it changed, invalidate the verdict. If `N` is four, stop with `Verdict: Cannot approve`. Otherwise, increment `N` and return to step 2.
 7. Treat only `Verdict: Approved` as approval. Before accepting it, reread the complete target. If it changed, invalidate the verdict. If `N` is four, stop with `Verdict: Cannot approve`. Otherwise, increment `N` and return to step 2. If it is unchanged, confirm that all changed behavior has passing checks, all findings have a disposition, and no structural complexity or code slop remains in scope.
 8. For every other verdict, classify each finding as `fixed`, `rejected-out-of-scope`, or `blocked-decision`. Record material verification gaps as `blocked-decision`, even when `Findings:` is `None`. Fix only actionable findings within the scope lock. Record evidence and the reason for every rejection. Stop with `Verdict: Cannot approve` for a blocked decision or scope expansion.

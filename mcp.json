@@ -9,7 +9,7 @@
   },
   "exa": {
     "type": "http",
-    "url": "https://mcp.exa.ai/mcp?tools=web_search_exa,web_fetch_exa,web_search_advanced_exa",
+    "url": "https://mcp.exa.ai/mcp?tools=web_search_exa,crawling_exa,web_search_advanced_exa",
     "headers": {
       "x-api-key": "${EXA_API_KEY}"
     }

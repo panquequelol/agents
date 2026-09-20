@@ -1,6 +1,6 @@
 Solve the user task with one Oracle advice plan, at most one follow-up advice request, and a strict Oracle review gate. The main agent owns all edits and checks. Oracle does not edit files.
 
-Use [Oracle v3](../subagents/oracle_v3.md) for every request. Load the definition and confirm that Oracle's active instructions use it before work starts. Stop if installed legacy instructions conflict. Keep the existing finding IDs, routing states, and failure codes for compatibility.
+Oracle runs with the system prompt in [subagents/oracle.md](../subagents/oracle.md). Confirm the installed Oracle uses it before work starts. Stop if the installed instructions conflict. Oracle gets no conversation history, so each request needs a self-contained brief. Keep the existing finding IDs, routing states, and failure codes for compatibility.
 
 ## Explore
 
@@ -36,7 +36,7 @@ Use the recorded baseline and pre-existing-change evidence to identify task chan
 3. Before each review request, add one to the cycle count.
 4. Never make more than four review requests.
 5. Snapshot `HEAD`, the current diff, untracked task files, and check results.
-6. Ask a new Oracle instance with no prior context to review the snapshot.
+6. Ask a new Oracle instance with no prior context for an approval review of the snapshot. State that the response must use the review output contract with a gate verdict.
 7. Give the reviewer a complete brief with the original problem, constraints, non-goals, Oracle plan, recorded comparison base and pre-existing-change evidence, current target files, current diff, related callers and tests, check results, and finding dispositions.
 8. Do not give the reviewer a previous verdict.
 9. Require the reviewer to review the complete current target, not only prior findings.
