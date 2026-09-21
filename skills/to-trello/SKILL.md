@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 1. Extract the outcome, agreed requirements, constraints, and open questions from the request and conversation.
 2. Read the target repository's applicable `AGENTS.md` files and linked project instructions. Inspect code only when it can answer a material question.
-3. Keep only task-relevant information. Exclude credentials and unnecessary personal or customer data.
+3. Exclude credentials and unnecessary personal or customer data.
 4. Leave implementation planning for the later local session.
 
 ## 2. Find the destination
@@ -25,9 +25,9 @@ If card or native checklist tools are unavailable, offer a complete draft for ma
 2. Offer to capture the idea with open questions. If the user chooses this, mark the description `Needs clarification` and put deferred decisions in a native `To clarify` checklist. Otherwise, resolve material gaps before proceeding.
 3. Default to one card per outcome. Propose separate cards only for work that needs independent priority or delivery. Put steps within the same outcome in checklists. Include any proposed split in the final preview.
 
-For "message customers when their report is done", clarify the channel, recipients, completion event, and message contents, including a report link or attachment. Reuse answers already in the conversation. Exact wording can remain an open question if the user wants to defer it.
+For "message customers when their report is done", clarify the channel, recipients, completion event, and message contents, including a report link or attachment. Exact wording can remain an open question if the user wants to defer it.
 
-Proceed when the outcome is clear and each material question is answered or explicitly deferred. Do not mark it ready for implementation while material questions remain.
+Proceed when the outcome is clear and each material question is answered or explicitly deferred.
 
 ## 4. Draft the card
 
@@ -45,12 +45,11 @@ Use this shape for the description. Omit optional lines and replace all placehol
 <Outcome and reason, in one or two sentences.>
 
 Scope: <Agreed behavior and constraints.>
-Status: Needs clarification.
 Out of scope: <Relevant exclusions.>
 References: <Existing links to supporting material.>
 ```
 
-Include the status line only when questions remain. Link existing documents for longer details. If essential content exceeds the budget, ask about a smaller scope or a linked reference. Never silently truncate requirements or use comments as overflow storage.
+Include `Status: Needs clarification.` only when questions remain. Link existing documents for longer details. If essential content exceeds the budget, ask about a smaller scope or a linked reference. Never silently truncate requirements or use comments as overflow storage.
 
 Use native checklists:
 
@@ -69,7 +68,7 @@ Omit empty or redundant checklists. Keep all new items unchecked. Use Markdown c
 5. Create its native checklists and items with the IDs returned by Trello.
 6. Read back each card and its checklists. Verify the destination, title, description, checklist names, item text, order, and unchecked state against the approved preview.
 
-Limit writes to the approved cards and their checklists. Leave repository files unchanged. Set labels, members, dates, or other metadata only when requested and included in the approved preview. Use existing boards and lists. Do not create boards, lists, or labels, or modify pre-existing cards.
+Leave repository files unchanged. Set labels, members, dates, or other metadata only when requested and included in the approved preview. Use existing boards and lists. Do not create boards, lists, or labels, or modify pre-existing cards.
 
 ## 6. Report the result
 
@@ -81,4 +80,4 @@ If creation fails or times out:
 2. Retry only writes confirmed to be missing. If the result remains uncertain or a match might predate this run, stop and report the uncertainty. An inconclusive search does not prove that a write failed.
 3. Preserve completed writes. Report their URLs, what remains missing, and any unknown write result. Never recreate the whole card or delete partial work to hide a failure.
 
-If Trello rejects a size or object limit, ask how to reduce the remaining content before another write. Keep any card already created.
+If Trello rejects a size or object limit, ask how to reduce the remaining content before another write.
