@@ -31,6 +31,24 @@ When integrating a change, don't bolt it onto the existing design. Redesign as i
 
 This is the method for preserving option value when integrating changes into an existing design.
 
+### Attack the Premise
+
+When two or more fixes that share one premise have failed the same gate, suspect the premise, not the fixes.
+
+**Why:** Each failure under a shared premise is evidence about the premise.
+
+**Pattern:**
+- **Write the premise down.** The premise is the one sentence that every failed fix assumed.
+- **Take a census before the next fix.** Count the imbalance per actor. The census shows which actors hold the imbalance, not how large it is. Write the census as a rerunnable script.
+- **Read the skew.** If the same few actors hold most of the imbalance on every run, something assigns them that role. Find what assigns the role. That assignment is the next "why" to trace to its root cause.
+- **Remove the asymmetry instead of compensating for it**, per the [Laziness Protocol](#laziness-protocol). Rotate the role between actors, randomize the assignment, or move the role, so that no actor holds it on every run. A return path, a shared pool, a batched hand-off, or a periodic rebalance leaves the assignment in place and adds work on every run.
+
+**Stop:**
+- Do not start the next fix before the premise is written down and the census exists.
+- If the census is even across actors, the premise is not the cause. Look for the cause elsewhere and keep the census as evidence.
+
+This principle is distinct from [Redesign From First Principles](#redesign-from-first-principles), which rebuilds a design around a new requirement. It questions a fact the current design assumes.
+
 ### Laziness Protocol
 When: Apply when refactoring, evaluating diff size, or tempted to add abstractions, layers, or signal threading. Bias toward deletion and the smallest change that solves the problem.
 
@@ -83,7 +101,79 @@ Order work as a sequence of small units, each ending in a state you can check, a
 - Verify before advancing. Red to green per unit, never deferred to a final batch.
 - Order the units so the sequence builds confidence on its own, for you while executing and for a reviewer reading the stack.
 
-The sequencing complement to the **prove-it-works** principle skill, which keeps each check real, and the **build-the-lever** principle skill, which makes the per-unit check cheap.
+Keep each check against the real artifact, and make the per-unit check cheap enough to run every time.
+
+### Boundary Discipline
+
+Place validation, type narrowing, and error handling at system boundaries. Trust internal code unconditionally. Business logic lives in pure functions. The shell is thin and mechanical.
+
+**Why:** Scattered validation is noisy, redundant, and gives a false sense of safety. Keep logic out of framework wiring so it can be tested without the framework.
+
+**The pattern:**
+- **At boundaries** (CLI args, config files, external APIs, network protocols): validate, return errors, handle defensively.
+- **Inside the system:** typed data, error propagation, no re-validation. Trust the types.
+- **Across the boundary.** Expose domain concepts, not the boundary's private representation. Keep general-purpose mechanism inside and special-purpose policy at the edge.
+
+**Applications:**
+
+Validation and error handling:
+- Validate config at parse time (the boundary), not inside business logic
+- Parse raw data into domain types at the boundary
+- Do not re-export transport, storage, framework, or wire types through the public surface
+- No redundant nil checks deep in call chains if the boundary already validated
+
+Code organization:
+- Business logic in pure functions with no framework dependencies
+- Parse functions: pure transforms from raw bytes to typed state
+- Prompt construction: structured state in, string out
+- Scoring and assessment: pure transforms from state to results
+
+**The tests:**
+- "Is this data crossing a system boundary right now?" If not, validation is redundant.
+- "Can this be a pure function that the shell just calls?" If yes, extract it.
+
+### Encode Lessons in Structure
+
+Encode recurring fixes in mechanisms (tools, code, metadata, automation) instead of textual instructions. Every error, human correction, and unexpected outcome is a learning signal. Capture it, route it, and close the loop.
+
+**Why:** Textual instructions are easy to miss. They require the reader to notice, remember, and comply. Structural mechanisms (lint rules, metadata flags, runtime checks, automation scripts) enforce the rule without cooperation.
+
+**Pattern:**
+When you catch yourself writing the same instruction a second time:
+1. Ask: can this be a lint rule, a metadata flag, a runtime check, or a script?
+2. If yes, encode it. Delete the instruction
+3. If no (requires judgment), make the instruction more prominent and add an example of the failure mode
+
+**Pick the strongest mechanism.** When more than one mechanism would work, choose the strongest the situation allows (an unrepresentable state that cannot compile, then a lint or banned API that fails CI, then a canonical helper, then a runtime check), because agents copy whatever the surrounding code already does and a weaker guard becomes the next template.
+
+**Corollary:** If the fix is structural, only use the structural fix. The instruction is the symptom.
+
+**Feedback loop:**
+- **Capture every correction.** When the human intervenes or tests fail, decide if it's a one-off or a pattern.
+- **Route to the right layer.** One-off -> session note. Recurring fix -> rule or lint. Systemic issue -> principle.
+- **Close the loop.** Don't just record. Apply now or create a concrete todo.
+
+**Anti-patterns:**
+- Acknowledging without recording ("I'll keep that in mind" does not persist)
+- Recording without routing (a note about a lint rule that should exist is wasted unless the lint rule gets implemented)
+- Fixing without generalizing (fixing one instance while leaving the recurring pattern intact)
+
+### Never Block on the Human
+
+The human supervises asynchronously. Agents must stay unblocked. Make reasonable decisions, proceed, and let the human course-correct after the fact.
+
+**Why:** Every permission pause stalls the pipeline and makes the human the bottleneck. Since code changes are reversible and reviewable, a wrong decision usually costs less than blocking.
+
+**Pattern:**
+- **Proceed, then present.** Do the work, show the result. Don't ask "should I do X?" Do X, explain why.
+- **Reserve questions for genuine ambiguity.** Ask only when you cannot infer intent from context.
+- **Make the system self-healing.** When you notice a problem, log it and fix it in the next round.
+- **Supervision is async.** Design workflows for review-after-the-fact.
+
+**Boundaries:**
+- **Irreversible actions** (force-push, delete production data, send external messages) still require confirmation.
+- **Reversible actions** (write code, edit notes, split tasks) should proceed without blocking.
+- **Product direction** comes from the human. *Execution* should not block.
 
 ## Code Organization
 
@@ -143,7 +233,7 @@ All steps in problem-solving must be explicit, pure and composable.
 - Reserve thrown exceptions for truly exceptional, unrecoverable, or framework-boundary cases
 - Propagate errors explicitly; do not swallow them or replace them with success-shaped fallbacks
 
-If the project uses `better-result`, read [BETTER-RESULT.md](./BETTER-RESULT.md) for its v3 patterns: `TaggedError`, `Result.gen`, retries, and serialization.
+If the project uses `better-result`, read `~/.dud/rules/BETTER-RESULT.md` for patterns.
 
 ### Error Message Design
 

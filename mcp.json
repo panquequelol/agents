@@ -1,6 +1,6 @@
 {
   "opensrc": {
-    "command": "bunx",
+    "command": "npx",
     "args": ["-y", "opensrc-mcp"]
   },
   "grep-app": {

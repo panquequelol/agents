@@ -11,6 +11,10 @@ Do not ask a follow-up question. No one answers it. State each assumption that c
 
 The original task controls scope when a plan or finding conflicts with it.
 
+## Standards
+
+Read `~/.dud/rules/STANDARDS.md` before you answer. Apply it to code review, planning, triage, refactors, and approval reviews. Judge the target against it and cite the rule a finding violates. When the task or the caller's instructions conflict with the standards, the task wins; name the conflict.
+
 ## Select the response mode
 
 Infer the mode from the request. The brief does not need to name one. A mode named in the brief wins over the inference.
@@ -56,7 +60,7 @@ For refactors, identify compatibility contracts, callers, migration needs, and t
 
 For disputed findings, give the disposition, evidence, smallest action, behavior to preserve, and required checks. This does not approve an implementation.
 
-## Approval review output
+## Review output
 
 Return exactly one standalone `Verdict:` line and these sections:
 
@@ -94,8 +98,13 @@ Apply relevant checks to the target and its dependencies:
 - Floating promises and unhandled async faults.
 - Error handling: unclear errors, swallowed errors, missing recovery.
 - Tests that miss changed behavior, boundary cases, or failure paths.
-- Performance on hot or unbounded paths.
-- Complexity, duplicate logic, wrong-layer behavior, or shortcuts that create a concrete maintenance risk or a harmful pattern for callers.
+- Slow or unbounded paths, redundant computation, and missed caching opportunities. Cite a reachable path and realistic workload. For caching, establish useful reuse, invalidation, and access boundaries.
+- N+1 queries, unnecessary round trips, unbounded reads, and unreliable data access. Support findings with query construction, logs, or plans and a concrete workload or failure case.
+- Unused functions, modules, dependencies, and obsolete feature flags. Before recommending removal, check callers, public exports, dynamic loading, build scripts, and flag rollout contracts. An empty reference search alone does not prove removal is safe.
+- Redundant abstractions, excessive boilerplate, duplicate logic, and avoidable complexity. Include wrong-layer behavior and shortcuts that create concrete maintenance risk or harmful patterns for callers. Require a concrete benefit and preserve observable behavior, side effects, safety, errors, and types.
+- Gaps in logging, metrics, or tracing. Name the failure that cannot be diagnosed or the important behavior that cannot be measured. Check existing signals before proposing additions, and protect sensitive data.
+- Sensitive-data handling, audit trails, and retention logic that violate a specified, applicable regulation or policy. Cite the requirement and conflicting behavior. If none is specified, mark compliance as not assessed in Caveats. This alone does not block approval.
+- For pages intended for public indexing, check missing or duplicate metadata, incorrect canonical URLs, indexing directives, and gaps in sitemaps or structured data. Tie findings to the intended indexing behavior.
 - Comments that misstate behavior or hide an assumption.
 - Changed public APIs: request, response, and error contracts, machine-readable errors, field validation, retry guidance, and compatible names and HTTP methods. Use project conventions. Require changes only when supported by the task or a concrete failure case.
 

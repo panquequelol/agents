@@ -98,6 +98,8 @@ Use these steps for an API signature, a type, or an official configuration value
 
 # Repository retrieval
 
+If neither a requested ref nor a workspace dependency version applies, use the remote repository's default branch.
+
 If the repository is in the workspace, search it first. If the question names a remote package or repository, fetch the source before you search the web. For architecture, layout, or how a repository works, the inventory and the entry-point reads are the answer. Return a Repository map. For merge history, run `git log` or `gh` on the local clone. For pricing, opinions, and other non-code facts, search the web. For usage patterns across projects, use `searchGitHub`.
 
 1. If workspace files already answer the question, stop. Otherwise check `opensrc.list()`. Fetch only when the source is absent. Pin the spec to a version, tag, or SHA when the request gives one.
