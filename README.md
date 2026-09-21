@@ -13,7 +13,8 @@ Oracle gives advice unless the brief asks for an approval review with a gate ver
 | File | Use |
 | --- | --- |
 | [AGENTS.md](./AGENTS.md) | Main agent rules for concise technical text, code, and agent work. |
-| [rules/STANDARDS.md](./rules/STANDARDS.md) | Design, workflow, TypeScript, and React rules. |
+| [rules/PRINCIPLES.md](./rules/PRINCIPLES.md) | Design principles. Use before implementation. |
+| [rules/STANDARDS.md](./rules/STANDARDS.md) | Code standards. Use during implementation. Use both files for code review. |
 | [rules/BETTER-RESULT.md](./rules/BETTER-RESULT.md) | Error handling with `better-result` v3. |
 | [mcp.json](./mcp.json) | MCP server configuration. |
 
@@ -21,10 +22,6 @@ Oracle gives advice unless the brief asks for an approval review with a gate ver
 
 | File | Use |
 | --- | --- |
-| [commands/create-pr.md](./commands/create-pr.md) | Create a draft PR that targets `main`. |
-| [commands/research.md](./commands/research.md) | Run one or two bounded Librarian lanes, then synthesize in the main agent. |
-| [commands/review.md](./commands/review.md) | Run a three-axis review across Defects, Standards, and Complexity. |
-| [commands/scan.md](./commands/scan.md) | Scan the codebase for one known issue pattern and report findings with evidence. |
 | [commands/vercel.md](./commands/vercel.md) | Interface critique of screen and behavior, in the voice of a hostile design audit. |
 
 ## Specialist agents
@@ -33,10 +30,17 @@ Use a specialist agent for its assigned task. Give each agent the problem, const
 
 | Agent | Use |
 | --- | --- |
-| [Oracle](./subagents/oracle.md) | Get implementation advice or a strict approval review based on the request. |
-| [Librarian](./subagents/librarian.md) | Research the workspace, the web, documentation, public code, and business contacts. Use `lookup` for API signatures. |
+| [Oracle](./subagents/ORACLE.md) | Get implementation advice or a strict approval review based on the request. |
+| [Librarian](./subagents/LIBRARIAN.md) | Research the workspace, the web, documentation, public code, and business contacts. Use `lookup` for API signatures. |
 
 ## Skills
+
+| File | Use |
+| --- | --- |
+| [skills/nuke/SKILL.md](./skills/nuke/SKILL.md) | Run a three-axis code review across Defects, Standards, and Complexity. |
+| [skills/research/SKILL.md](./skills/research/SKILL.md) | Run deep research with background Librarians and save one cited report. |
+| [skills/to-pr/SKILL.md](./skills/to-pr/SKILL.md) | Create a draft PR that targets `main`. |
+| [skills/to-trello/SKILL.md](./skills/to-trello/SKILL.md) | Turn a conversation or rough idea into short Trello cards with native checklists. |
 
 Install agent skills from [skills.sh](https://skills.sh/) with `npx skills add`.
 
@@ -58,12 +62,14 @@ npx skills add emilkowalski/skills --skill find-animation-opportunities
 npx skills add haowjy/creative-writing-skills --skill creative-writing-craft
 npx skills add dmmulroy/skills --skill bro
 npx skills add jakubkrehel/skills --skill better-writing better-interface
+npx skills add vercel-labs/agent-browser --skill agent-browser
 ```
 
 ### Skill list
 
 | Skill | Source | Install Command |
 | --- | --- | --- |
+| `agent-browser` | [vercel-labs/agent-browser](https://skills.sh/vercel-labs/agent-browser/agent-browser) | `npx skills add vercel-labs/agent-browser --skill agent-browser` |
 | `ai-sdk` | [vercel/ai](https://skills.sh/vercel/ai/ai-sdk) | `npx skills add vercel/ai@ai-sdk` |
 | `better-interface` | [jakubkrehel/skills](https://skills.sh/jakubkrehel/skills/better-interface) | `npx skills add jakubkrehel/skills@better-interface` |
 | `better-writing` | [jakubkrehel/skills](https://skills.sh/jakubkrehel/skills/better-writing) | `npx skills add jakubkrehel/skills@better-writing` |
@@ -94,13 +100,7 @@ npx skills add jakubkrehel/skills --skill better-writing better-interface
 | No repo, or the idea is not about this codebase | `grill-me` |
 | A change in a repo, or a repo with no domain docs | `grill-with-docs` |
 
-`grill-me` writes no files. `grill-with-docs` writes terms to `CONTEXT.md`.
-
-## Local notes
-
-Put plans, research logs, and other AI exploration in `docs/`. Do not commit this folder.
-
-Push `CONTEXT.md` and other shared domain files. `docs/` holds personal noise from the agent.
+`grill-me` writes no files. `grill-with-docs` writes terms to `CONTEXT.md` and hard decisions to `docs/adr/`.
 
 ## Tooling
 

@@ -1,13 +1,14 @@
 ---
+name: nuke
 description: "Run a three-axis code review across Defects, Standards, and Complexity."
-argument-hint: "[fixed-point] [spec-path]"
+disable-model-invocation: true
 ---
 
 Review changes against a fixed point with three parallel Oracle subagents. The main agent handles verification, lane dispatch, synthesis, and the final gate verdict.
 
 ## 1. Initial verification
 
-1. Identify the fixed point reference. When unspecified, use `HEAD~1` on `main`, or `main` on other branches.
+1. Identify the fixed point reference and optional specification path from the request. When unspecified, use `HEAD~1` on `main`, or `main` on other branches.
 2. Verify the reference with `git rev-parse <fixed-point>`. If the reference is invalid, stop immediately.
 3. Find the merge base commit:
    `BASE=$(git merge-base <fixed-point> HEAD 2>/dev/null || echo <fixed-point>)`
@@ -16,7 +17,7 @@ Review changes against a fixed point with three parallel Oracle subagents. The m
    - Commit log: `git log $BASE..HEAD --oneline`.
    - Untracked files: `git status --porcelain`.
 5. Locate the specification target:
-   - If provided, check the `[spec-path]` argument.
+   - If provided, check the requested specification path.
    - Check the commit log for issue references in the format `#123`.
    - Search for matching files in `docs/` or `specs/`.
    - If found, store the path or reference in `SPEC_TARGET`. If not found, set `SPEC_TARGET` to `none`.
@@ -50,7 +51,7 @@ In each brief, instruct the subagent to remain strictly read-only, designate `$B
 
 ### Lane 2: Standards
 - Focus: Repository standards, domain modeling, and naming.
-- Rules: Check against `rules/STANDARDS.md` and `rules/BETTER-RESULT.md`. Documented rules override general smells. Skip items that tooling already enforces.
+- Rules: Check against `rules/PRINCIPLES.md`, `rules/STANDARDS.md`, and `rules/BETTER-RESULT.md`. Documented rules override general smells. Skip items that tooling already enforces.
 - Code smell heuristics:
   - Primitive Obsession: Loose strings or numbers used instead of domain models or tagged errors.
   - Data Clumps: Three or more parameters passed together instead of a typed object.
@@ -63,6 +64,7 @@ In each brief, instruct the subagent to remain strictly read-only, designate `$B
 ### Lane 3: Complexity
 - Focus: Structural minimalism, code deletion, and control flow simplicity.
 - Rules: Delete unnecessary complexity. Do not rearrange complex code. Gate blocks only on introduced complexity. Report pre-existing complexity under Caveats.
+- Thermo-nuclear: Resolve and read the installed `thermo-nuclear-code-quality-review` SKILL.md. If that read fails, do not launch Complexity. Return `Verdict: Cannot approve`. Put that path in the Complexity brief. Tell the Oracle to read that file and apply that skill's review rules to the change against `$BASE`. Keep the gate verdict and finding fields required above.
 - Code smell heuristics:
   - Speculative Generality: Unused parameters, premature abstractions, or dead extension points.
   - Middle Man: Functions that pass calls through without adding behavior.

@@ -1,3 +1,9 @@
+---
+name: to-pr
+description: "Create a draft PR that targets `main`."
+disable-model-invocation: true
+---
+
 Create a draft PR that targets `main`.
 
 Use Conventional Commits for each commit message.

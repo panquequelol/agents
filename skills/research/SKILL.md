@@ -1,9 +1,10 @@
 ---
+name: research
 description: "Run deep research with background Librarians and save one cited report."
-argument-hint: "<question> [scope, constraints, output path]"
+disable-model-invocation: true
 ---
 
-Research `$ARGUMENTS` in depth. Librarians gather evidence. The main agent owns scope, synthesis, and one Markdown report.
+Research the requested question in depth. Librarians gather evidence. The main agent owns scope, synthesis, and one Markdown report.
 
 ## Scope
 
